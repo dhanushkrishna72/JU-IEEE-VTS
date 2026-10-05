@@ -9,12 +9,12 @@ function Navbar() {
       <nav className="nav">
         <div className="nav-identity">
           <img
-            src={process.env.PUBLIC_URL + "/vts.svg"}
+            src={process.env.PUBLIC_URL + "/vts.png"}
             className="logo-mark"
             alt="IEEE-VTS"
           />
           <img
-            src={process.env.PUBLIC_URL + "/jain.svg"}
+            src={process.env.PUBLIC_URL + "/jain.webp"}
             className="logo-mark"
             alt="JAIN"
           />
