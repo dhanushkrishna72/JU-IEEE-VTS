@@ -14,10 +14,6 @@ html {
 
 /* ============================================================
    COLOR PALETTE
-   Scales run 50 (lightest in light mode) to 950 (darkest).
-   In dark mode the scales are flipped, so the same variable
-   name always plays the same role (text-950 = main text,
-   background-50 = page background).
    ============================================================ */
 
 @media (prefers-color-scheme: light) {
@@ -82,7 +78,6 @@ html {
     --accent-900: #0c1327;
     --accent-950: #060a14;
 
-    /* Inverted sections (events, team, footer) stay dark in light mode */
     --inv-bg: var(--background-950);
     --inv-card: var(--background-900);
     --inv-card-hover: var(--background-800);
@@ -158,7 +153,6 @@ html {
     --accent-900: #d8dff3;
     --accent-950: #ebeff9;
 
-    /* Inverted sections (events, team, footer) become raised panels in dark mode */
     --inv-bg: var(--background-100);
     --inv-card: var(--background-200);
     --inv-card-hover: var(--background-300);
@@ -174,7 +168,6 @@ html {
 
 /* ============================================================
    SEMANTIC TOKENS
-   Use these in components. They work in both modes.
    ============================================================ */
 
 :root {
@@ -215,6 +208,10 @@ h1 em {
   font-style: italic;
   color: var(--link-accent);
 }
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
 
 .navibar {
   padding: 3rem 4rem;
@@ -346,6 +343,10 @@ h1 em {
   border-bottom: none;
 }
 
+/* ============================================================
+   HERO
+   ============================================================ */
+
 .hero {
   min-height: 100vh;
   display: flex;
@@ -418,6 +419,10 @@ h1 em {
   color: var(--inv-text);
 }
 
+/* ============================================================
+   GENERAL SECTIONS
+   ============================================================ */
+
 .section-heading-row {
   display: flex;
   justify-content: space-between;
@@ -464,6 +469,10 @@ h1 em {
   line-height: 1.75;
   color: var(--muted);
 }
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
 
 .upcomingEvents {
   padding: 6rem 4rem;
@@ -593,6 +602,10 @@ h1 em {
   color: var(--muted);
 }
 
+/* ============================================================
+   BLOGS
+   ============================================================ */
+
 .latestBlogs {
   padding: 6rem 4rem;
   background: var(--bg);
@@ -716,6 +729,11 @@ h1 em {
   color: var(--muted);
 }
 
+/* ============================================================
+   TEAM
+   Badge / conference-pass inspired design
+   ============================================================ */
+
 .team {
   padding: 6rem 4rem;
   background: var(--inv-bg);
@@ -728,111 +746,314 @@ h1 em {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem;
   margin-top: 4rem;
 }
 
+/* Main card */
+
 .member-card {
-  background: var(--inv-card);
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  transition: background 0.3s;
+  --card-color: #ef2929;
+  --delay: 0s;
+
+  position: relative;
+  min-width: 0;
+  padding-top: 2rem;
+  border-radius: 1.2rem;
+  transform-origin: 50% 0%;
+  animation: badgeSwing 5s ease-in-out infinite;
+  animation-delay: var(--delay);
+  transition: filter 0.3s ease;
 }
 
 .member-card:hover {
-  background: var(--inv-card-hover);
+  filter: brightness(1.06);
 }
 
-.member-avatar {
-  width: 44px;
-  height: 44px;
-  background: var(--inv-card-hover);
+@keyframes badgeSwing {
+  0% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+  100% {
+    transform: rotate(-1deg);
+  }
+}
+
+/* ============================================================
+   BADGE TOP
+   ============================================================ */
+
+.member-card-top {
+  position: relative;
+  height: 8rem;
+  padding: 3rem 1.7rem 2rem;
+  background-color: #080808;
+  border-radius: 1.2rem 1.2rem 0 0;
+  overflow: hidden;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.member-card-top::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.45) 100%
+  );
+
+  pointer-events: none;
+}
+
+.member-brand {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: #ffffff;
+  text-align: center;
+}
+
+.member-brand-main {
+  font-size: 1.65rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.member-brand-sub {
+  margin-top: -0.15rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+}
+
+.member-handle {
+  position: relative;
+  z-index: 1;
+
+  margin-top: 1.1rem;
+
+  color: #bdbdbd;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* ============================================================
+   MEMBER PHOTO
+   ============================================================ */
+
+.member-photo-wrap {
+  position: absolute;
+  z-index: 5;
+
+  top: 7.5rem;
+  left: 50%;
+
+  width: 8rem;
+  height: 8rem;
+
+  transform: translateX(-50%);
+}
+
+.member-photo {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+
   border-radius: 50%;
+  border: 4px solid #ffffff;
+
+  background: #1a1a1a;
+
+  box-shadow:
+    0 0 0 2px var(--card-color),
+    0 10px 25px rgba(0, 0, 0, 0.2);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.8rem;
-  border: 1px solid var(--inv-border);
-  overflow: hidden;
 }
 
-.member-avatar span {
-  font-family: "Playfair Display", serif;
-  font-size: 1.1rem;
-  color: var(--inv-muted);
-}
+.member-photo img {
+  display: block;
 
-.member-avatar img {
   width: 100%;
   height: 100%;
+
   object-fit: cover;
+
+  filter: grayscale(100%);
+}
+
+.member-photo span {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #ffffff;
+
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.member-card-bottom {
+  position: relative;
+  min-height: 8rem;
+  padding: 5rem 1.2rem 1.2rem;
+  background: var(--card-color);
+  color: #ffffff;
+  border-radius: 0 0 1.2rem 1.2rem;
 }
 
 .member-name {
+  max-width: 90%;
+
+  margin: 0;
+
   font-family: "DM Sans", sans-serif;
-  font-size: 0.95rem;
-  font-weight: 400;
-  color: var(--inv-text);
+  font-size: clamp(1.7rem, 2.4vw, 2.4rem);
+  line-height: 1.05;
+  font-weight: 800;
+
+  letter-spacing: -0.04em;
+
+  color: #ffffff;
 }
 
 .member-role {
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--inv-muted);
+  margin: 1rem 0 0;
+
+  max-width: 75%;
+
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  font-weight: 500;
+
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.footer {
-  padding: 3rem 4rem;
-  background: var(--inv-bg);
-  border-top: 1px solid var(--inv-border);
+.member-divider {
+  width: 100%;
+  height: 1px;
+
+  margin: 2rem 0 1rem;
+
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.member-meta {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
+
   gap: 1rem;
 }
 
-.footer-logo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.member-category {
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+
+  color: #ffffff;
 }
 
-.footer-logo-mark {
-  width: 32px;
-  height: 32px;
-  background: var(--inv-card);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--inv-border);
-  overflow: hidden;
+.member-tag {
+  padding: 0.45rem 0.8rem;
+
+  background: #ffffff;
+  color: var(--card-color);
+
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
 }
 
-.footer-image {
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
+/* ============================================================
+   BADGE CLIP
+   ============================================================ */
+
+.badge-clip {
+  position: absolute;
+  z-index: 10;
+
+  top: -0.4rem;
+  left: 50%;
+
+  width: 2.7rem;
+  height: 4rem;
+
+  transform: translateX(-50%);
+
+  background: linear-gradient(
+    90deg,
+    #777777,
+    #eeeeee,
+    #555555,
+    #eeeeee,
+    #666666
+  );
+
+  border-radius: 0.35rem;
+
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
 }
 
-.footer-name {
-  font-size: 0.72rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--inv-text);
+.badge-clip::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0.3rem;
+  left: 50%;
+
+  width: 1.2rem;
+  height: 2.5rem;
+
+  transform: translateX(-50%);
+
+  background: #181818;
+
+  border-radius: 0.3rem;
 }
 
-.footer-copy {
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  color: var(--inv-text);
-  text-transform: uppercase;
+.badge-clip span {
+  position: absolute;
+
+  left: 50%;
+  bottom: -0.4rem;
+
+  width: 3.2rem;
+  height: 0.65rem;
+
+  transform: translateX(-50%);
+
+  background: #d9d9d9;
+
+  border-radius: 50%;
 }
+
+/* ============================================================
+   EVENTS PAGE
+   ============================================================ */
 
 .page-hero {
   padding: 7rem 5rem 4rem;
@@ -1007,6 +1228,10 @@ h1 em {
   opacity: 0.55;
 }
 
+/* ============================================================
+   BLOG PAGE
+   ============================================================ */
+
 .blog-section {
   padding: 4rem 5rem 7rem;
 }
@@ -1078,6 +1303,10 @@ h1 em {
   flex-wrap: wrap;
 }
 
+/* ============================================================
+   GALLERY
+   ============================================================ */
+
 .gallery-section {
   padding: 4rem 5rem 7rem;
 }
@@ -1133,7 +1362,6 @@ h1 em {
   transform: translateY(0);
 }
 
-/* Overlay text sits on a dark scrim in both modes, so these stay light */
 .gallery-overlay-text h4 {
   font-family: "Playfair Display", serif;
   font-size: 1rem;
@@ -1185,35 +1413,9 @@ h1 em {
   color: #edf0f7;
 }
 
-@media (max-width: 1024px) {
-  .gallery-section {
-    padding: 3rem 3rem 5rem;
-  }
-
-  .gallery-grid {
-    columns: 2;
-  }
-}
-
-@media (max-width: 768px) {
-  .gallery-section {
-    padding: 2.5rem 1.5rem 4rem;
-  }
-
-  .gallery-grid {
-    columns: 2;
-  }
-}
-
-@media (max-width: 480px) {
-  .gallery-section {
-    padding: 2rem 1.2rem 3.5rem;
-  }
-
-  .gallery-grid {
-    columns: 1;
-  }
-}
+/* ============================================================
+   CONTACT
+   ============================================================ */
 
 .contact-page-hero {
   padding: 7rem 5rem 4rem;
@@ -1386,6 +1588,10 @@ h1 em {
   border-color: var(--ink);
 }
 
+/* ============================================================
+   EVENT FOOTER / RSVP
+   ============================================================ */
+
 .event-card-bottom {
   margin-top: auto;
   padding-top: 1rem;
@@ -1423,6 +1629,63 @@ h1 em {
   background: transparent;
   color: var(--cta);
 }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+  padding: 3rem 4rem;
+  background: var(--inv-bg);
+  border-top: 1px solid var(--inv-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--inv-card);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--inv-border);
+  overflow: hidden;
+}
+
+.footer-image {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+}
+
+.footer-name {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--inv-text);
+}
+
+.footer-copy {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--inv-text);
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   TABLET
+   ============================================================ */
 
 @media (max-width: 1024px) {
   .hero {
@@ -1469,7 +1732,8 @@ h1 em {
   }
 
   .team-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
   }
 
   .footer {
@@ -1526,6 +1790,10 @@ h1 em {
     gap: 4rem;
   }
 }
+
+/* ============================================================
+   MOBILE
+   ============================================================ */
 
 @media (max-width: 768px) {
   .nav-links {
@@ -1618,12 +1886,49 @@ h1 em {
   }
 
   .team-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
   }
 
   .member-card {
-    padding: 2rem 1.2rem;
+    padding-top: 1.5rem;
+  }
+
+  .member-card-top {
+    height: 15rem;
+    padding: 3rem 1.2rem 2rem;
+  }
+
+  .member-handle {
+    margin-top: 1rem;
+  }
+
+  .member-photo-wrap {
+    top: 7rem;
+    width: 7.5rem;
+    height: 7.5rem;
+  }
+
+  .member-card-bottom {
+    min-height: 16rem;
+    padding: 4.7rem 1.2rem 1.3rem;
+  }
+
+  .member-name {
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
+  }
+
+  .member-role {
+    font-size: 0.75rem;
+  }
+
+  .member-category {
+    font-size: 0.7rem;
+  }
+
+  .member-tag {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.6rem;
   }
 
   .footer {
@@ -1695,6 +2000,10 @@ h1 em {
   }
 }
 
+/* ============================================================
+   SMALL MOBILE
+   ============================================================ */
+
 @media (max-width: 480px) {
   h1 {
     font-size: clamp(2.4rem, 10vw, 3.5rem);
@@ -1743,20 +2052,39 @@ h1 em {
   }
 
   .team-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .member-card {
-    padding: 1.5rem 1rem;
+    padding-top: 1.5rem;
+  }
+
+  .member-card-top {
+    height: 16rem;
+  }
+
+  .member-handle {
+    margin-top: 1rem;
+  }
+
+  .member-photo-wrap {
+    top: 7.5rem;
+    width: 8.5rem;
+    height: 8.5rem;
+  }
+
+  .member-card-bottom {
+    min-height: 17rem;
+    padding-top: 5.2rem;
   }
 
   .member-name {
-    font-size: 0.82rem;
+    font-size: 1.8rem;
   }
 
   .member-role {
-    font-size: 0.6rem;
+    font-size: 0.78rem;
   }
 
   .footer {
@@ -1823,6 +2151,10 @@ h1 em {
   }
 }
 
+/* ============================================================
+   VERY SMALL DEVICES
+   ============================================================ */
+
 @media (max-width: 360px) {
   h1 {
     font-size: 2rem;
@@ -1836,8 +2168,17 @@ h1 em {
     display: none;
   }
 
-  .member-avatar {
-    width: 36px;
-    height: 36px;
+  .member-photo-wrap {
+    width: 8rem;
+    height: 8rem;
+    top: 7.5rem;
+  }
+
+  .member-card-bottom {
+    padding-top: 5rem;
+  }
+
+  .member-name {
+    font-size: 1.55rem;
   }
 }
